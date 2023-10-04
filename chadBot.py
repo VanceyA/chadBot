@@ -39,7 +39,7 @@ async def on_ready():
 @bot.command()
 async def quote(ctx):
     try:
-        with open("C:/Users/Vance/Desktop/Vance Bot/quotes.json", "r") as r:
+        with open("./quotes.json", "r") as r:
             j = json.load(r)
             all_quotes = j["quotes"]
     except:
@@ -52,7 +52,7 @@ async def quote(ctx):
 # Add a quote (use format "!addquote "*insert quote here*"")
 @bot.command()
 async def addquote(ctx, quote_):
-    def add_quote(quote, file="C:/Users/Vance/Desktop/Vance Bot/quotes.json"):
+    def add_quote(quote, file="./quotes.json"):
         with open(file, "r+") as fw:
             j = json.load(fw)
             j["quotes"].append(quote)
@@ -60,10 +60,10 @@ async def addquote(ctx, quote_):
                 wp.write(json.dumps(j))
 
     try:
-        with open("C:/Users/Vance/Desktop/Vance Bot/quotes.json", "r"):
+        with open("./quotes.json", "r"):
             pass
     except:
-        with open("C:/Users/Vance/Desktop/Vance Bot/quotes.json", "w+") as wp:
+        with open("./quotes.json", "w+") as wp:
             wp.write('{"quotes" : []}')
     finally:
         add_quote(quote_)
