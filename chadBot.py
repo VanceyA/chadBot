@@ -100,12 +100,15 @@ async def morb(ctx):
 @bot.command()
 async def roll(ctx, dice):
     # uses roll_() function from roll.py
-
-    # color=0x99230A       #color=discord.Color.blue()
-    # embed the result                                                    #color=0x*hex code* or color=discord.Color.*color*()
-    embed = discord.Embed(
-        title="Your Roll", description=str(roll_(dice)), color=0xDF0000
-    )
+    result = roll_(dice)
+    if result > 0:
+        embed = discord.Embed(
+            title="Your Roll", description=str(result), color=0xDF0000
+        )
+    else:
+        embed = discord.Embed(
+            title="Error", description="You BETA! Try rolling dice REALISTICALLY this time!", color=0xDF0000
+        )
     await ctx.send(embed=embed)
 
 

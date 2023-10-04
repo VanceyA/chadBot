@@ -13,6 +13,8 @@ def roll_(dice):
         # make it work with non-numeric entries (had a problem with entering "d20" and it using an emtpy string from before the d)
         d = [x for x in d if x.isdigit()]
         d = [int(x) for x in d]
+        if d[0] > 100:
+            return 0
 
         # roll all of the dice and add up the score
         rollTotal = 0
