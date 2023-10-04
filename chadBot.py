@@ -5,6 +5,13 @@ import random
 import json
 from roll import roll_
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+TOKEN = os.getenv("DISCORD_TOKEN")
+
 
 # This could be useful
 
@@ -128,8 +135,5 @@ async def pop(ctx):
 async def inputs(ctx, input1, input2):
     await ctx.send(f"{input1}, {input2}")
 
-
-# TOKEN = 'OTQxNTM0NDEwNjYxMDM2MDQy.GvcA6y.hPLIhnxnkA5zfCZ7jh8xSelXECLhZi1THSexhI'
-TOKEN = "MTE1OTEzNTI0MDUwNjMzMTIxNw.GF44TS.R2rt-VW8TVsMioZflHIVDr5_G92Blm5tNnZPZY"
 # Run the bot
 bot.run(TOKEN)
