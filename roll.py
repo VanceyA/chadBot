@@ -15,7 +15,9 @@ def roll_(dice):
         d = [int(x) for x in d]
         if d[0] > 100:
             return 0
-
+        
+        if d[0] <= 0:
+            return 0
         # roll all of the dice and add up the score
         rollTotal = 0
         i = 0
@@ -26,9 +28,9 @@ def roll_(dice):
                 break
             roll = random.randrange(1, d[1]+1)
             rollTotal += roll
-            i += 1
             if i == d[0]:
                 break
+            i += 1
         
         return rollTotal
 
