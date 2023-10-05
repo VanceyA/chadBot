@@ -1,3 +1,5 @@
 __pycache__/
 .env
 quotes.json
+chadcount.json
+venv/
