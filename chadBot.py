@@ -40,9 +40,11 @@ async def on_ready():
 # Message event handler
 # Someday this should be it's own class in it's own file
 @bot.event
-async def message_event(message):
+async def on_message(message): #Note this overrides the previous event on_message
     #this is the only thing we're doing with message so far
     result = chadCounter.parseMessage(message)
+
+    await bot.process_commands(message)
 
 @bot.command()
 async def chadcount(ctx):
