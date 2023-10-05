@@ -4,6 +4,7 @@ import discord
 import random
 import json
 from roll import roll_
+from minesweeper import Minesweeper
 
 import os
 from dotenv import load_dotenv
@@ -137,6 +138,21 @@ async def pop(ctx):
 @bot.command()
 async def inputs(ctx, input1, input2):
     await ctx.send(f"{input1}, {input2}")
+
+# Minesweeper
+@bot.command()
+async def minesweeper(ctx, size=9, num_mines=5):
+    if size < 2 or size > 9 or num_mines > size*size or num_mines == size*size:
+        embed = discord.Embed(
+            title="Error", description="Error creating board. Size must be less than 9 and the number of mines cannot be larger than the amount of cells", color=0xDF0000
+        )
+    else:
+        m = Minesweeper(size, num_mines)
+        m.initialize_board()
+        embed = discord.Embed(
+            title=f"Minesweeper: {size}x{size} - {num_mines} mines", description=m.get_board(), color=discord.Color.blue()
+        )
+    await ctx.send(embed=embed)
 
 # Run the bot
 bot.run(TOKEN)
