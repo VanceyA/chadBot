@@ -5,6 +5,7 @@ import random
 import json
 from roll import roll_
 from minesweeper import Minesweeper
+from chadcounter import WordCounter
 
 import os
 from dotenv import load_dotenv
@@ -28,6 +29,7 @@ intents = discord.Intents.all()
 
 # Bot command prefix
 bot = Bot(command_prefix="!", intents=intents)
+chadCounter = WordCounter("chadcount.json", 'chad')
 
 
 # Confirm logon
@@ -35,6 +37,19 @@ bot = Bot(command_prefix="!", intents=intents)
 async def on_ready():
     print("We have logged in as {0.user}".format(bot))
 
+# Message event handler
+@bot.event
+async def on_message(message):
+    #this is the only thing we're doing with message so far
+    result = chadCounter.parseMessage(message)
+
+@bot.command
+async def chadcount(ctx):
+    count = chadCounter.getCount()
+    if not count:
+        await ctx.send("Something went wrong with the chad counter, someone here should figure that out")
+    else:
+        await ctx.send("Total times the word \"" + chadCounter.word + "\"has been said: " + str(count)) 
 
 # Grab random quote
 @bot.command()
@@ -43,6 +58,7 @@ async def quote(ctx):
         with open("./quotes.json", "r") as r:
             j = json.load(r)
             all_quotes = j["quotes"]
+            r.close()
     except:
         await ctx.send("No quotes stored! Add it using the !addquote command")
         return
@@ -53,19 +69,26 @@ async def quote(ctx):
 # Add a quote (use format "!addquote "*insert quote here*"")
 @bot.command()
 async def addquote(ctx, quote_):
-    def add_quote(quote, file="./quotes.json"):
+
+    filename = "./quotes.json" #For clarity - Mtlfs
+    
+    def add_quote(quote, file=filename):
         with open(file, "r+") as fw:
             j = json.load(fw)
             j["quotes"].append(quote)
             with open(file, "w+") as wp:
                 wp.write(json.dumps(j))
+                wp.close()
+            fw.close()
 
     try:
-        with open("./quotes.json", "r"):
+        with open(filename, "r") as f:
             pass
+            f.close()
     except:
-        with open("./quotes.json", "w+") as wp:
+        with open(filename, "w+") as wp:
             wp.write('{"quotes" : []}')
+            wp.close()
     finally:
         add_quote(quote_)
         await ctx.send("Quote added!")
