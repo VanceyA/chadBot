@@ -38,18 +38,21 @@ async def on_ready():
     print("We have logged in as {0.user}".format(bot))
 
 # Message event handler
+# Someday this should be it's own class in it's own file
 @bot.event
-async def on_message(message):
+async def on_message(message): #Note this overrides the previous event on_message
     #this is the only thing we're doing with message so far
     result = chadCounter.parseMessage(message)
 
-@bot.command
+    await bot.process_commands(message)
+
+@bot.command()
 async def chadcount(ctx):
     count = chadCounter.getCount()
     if not count:
         await ctx.send("Something went wrong with the chad counter, someone here should figure that out")
     else:
-        await ctx.send("Total times the word \"" + chadCounter.word + "\"has been said: " + str(count)) 
+        await ctx.send("Total times the word \"" + chadCounter.word + "\" has been said: " + str(count)) 
 
 # Grab random quote
 @bot.command()
