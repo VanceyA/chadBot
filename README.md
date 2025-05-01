@@ -1,0 +1,1 @@
+ChadBot is an open-source Discord bot used by Utah Tech University students. This bot acted as a fun, interactive addition to the Utah Tech Code Chads discord server, allowing for students to contribute to the bot. This opened an easy path for students to build up experience collaborating with other developers, as well as just to contribute to the student community.
