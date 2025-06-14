@@ -66,21 +66,26 @@ async def quote(ctx):
         await ctx.send("No quotes stored! Add it using the !addquote command")
         return
 
-    await ctx.send(random.choice(all_quotes))
+    chosenquote = random.choice(all_quotes)
+    if (isinstance(chosenquote, list)):
+        await ctx.send(str(chosenquote[0]) + ": " + str(chosenquote[1]))
+    else:
+        await ctx.send("Unknown Author: " + chosenquote)
 
 
 # Add a quote (use format "!addquote "*insert quote here*"")
 @bot.command()
-async def addquote(ctx, quote_):
+async def addquote(ctx, *, quote_): #add full arg parsing (no more " ")
 
     filename = "./quotes.json" #For clarity - Mtlfs
     
     def add_quote(quote, file=filename):
         with open(file, "r+") as fw:
             j = json.load(fw)
-            j["quotes"].append(quote)
+            tuplequote = (str(ctx.author.display_name), quote, ctx.author.id) #tuple quote for author - mtlfs
+            j["quotes"].append(tuplequote)
             with open(file, "w+") as wp:
-                wp.write(json.dumps(j))
+                wp.write(json.dumps(j)) #tuples are dumped as lists
                 wp.close()
             fw.close()
 
@@ -88,7 +93,7 @@ async def addquote(ctx, quote_):
         with open(filename, "r") as f:
             pass
             f.close()
-    except:
+    except FileNotFoundError:
         with open(filename, "w+") as wp:
             wp.write('{"quotes" : []}')
             wp.close()
